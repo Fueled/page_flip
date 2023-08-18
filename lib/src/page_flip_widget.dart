@@ -20,6 +20,7 @@ class PageFlipWidget extends StatefulWidget {
     this.transformationController,
     this.onTapPage,
     this.onDoubleTapPage,
+    required this.currentPage,
   }) : super(key: key);
 
   final int? index;
@@ -35,13 +36,14 @@ class PageFlipWidget extends StatefulWidget {
   final double maxScale;
   final VoidCallback? onTapPage;
   final VoidCallback? onDoubleTapPage;
+  final Function(int) currentPage;
 
   @override
   PageFlipWidgetState createState() => PageFlipWidgetState();
 }
 
 class PageFlipWidgetState extends State<PageFlipWidget>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   int pageNumber = 0;
   List<Widget> pages = [];
   final List<AnimationController> _controllers = [];
@@ -165,6 +167,8 @@ class PageFlipWidgetState extends State<PageFlipWidget>
         }
       }
     }
+
+    widget.currentPage(pageNumber + 1);
 
     _isForward = null;
     currentPage.value = -1;
